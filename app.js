@@ -6,6 +6,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var noble = require('noble');
 
 var routes = require('./routes/index');
 var users = require('./routes/user');
@@ -66,6 +67,12 @@ app.use(function(err, req, res, next) {
         title: 'error'
     });
 });
-
-
 module.exports = app;
+
+//bluetooth
+noble.on('stateChange', function(state) {
+  // possible state values: "unknown", "resetting", "unsupported", "unauthorized", "poweredOff", "poweredOn"
+  console.log("state");
+  noble.startScanning();
+  // ...
+});
