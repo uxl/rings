@@ -73,6 +73,21 @@ module.exports = app;
 noble.on('stateChange', function(state) {
   // possible state values: "unknown", "resetting", "unsupported", "unauthorized", "poweredOff", "poweredOn"
   console.log("state");
-  noble.startScanning();
+  // noble.startScanning();
+  noble.startScanning([], true);
+  //E599A052E35C4CB99D66B136E8CDBBB7
+  //  manufacturerData: <Buffer 8c 00 b1 fe 5e f0 c4 33 0a 65 e2>,
+  var addressToTrack = 'Buffer 8c 00 b1 fe 5e f0 c4 33 0a 65 e2';
+  //var addressToTrack = 'Buffer 8c 00 b1 fe 5e f0 c4 33 0a 65 e2';
+  noble.on('discover', function(peripheral){
+    // console.log(peripheral.uuid + ' ' + peripheral.advertisement.manufacturerData + ' ' + peripheral.rssi);
+    console.log(peripheral);
+    // console.log(peripheral.advertisement.serviceUuids);
+    // console.log(peripheral.advertisement.manufacturerData);
+    if(peripheral.advertisement.manufacturerData == addressToTrack){
+      console.log('found: ' + peripheral.rssi);
+      //socket.emit('deviceData', {mac: peripheral.uuid, rssi:peripheral.rssi});
+    }
+  });
   // ...
 });
